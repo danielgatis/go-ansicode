@@ -18,6 +18,8 @@ func (l *logger) Tracef(format string, args ...interface{}) {
 	fmt.Printf("TRACE: "+format, args...)
 }
 
+var _ ansicode.Handler = (*handler)(nil)
+
 type handler struct{}
 
 func (*handler) Backspace() {

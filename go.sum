@@ -1,7 +1,9 @@
 github.com/danielgatis/go-iterator v0.0.1 h1:pTptWDVAKzR0EUdtfmFMP3v+hSetqB091V9um1DTO8I=
 github.com/danielgatis/go-iterator v0.0.1/go.mod h1:+gTbPAMdVIKwmqw7kr/mo5IFIzz2MFiRyYylcRvgbHs=
-github.com/danielgatis/go-vte v1.0.6 h1:jSEGG0c3Ax8epsIKLWSeUjY4qgXxmKlBCghxK81YRrY=
-github.com/danielgatis/go-vte v1.0.6/go.mod h1:B3jdQWPpcskSbJTMTqb+slToseRGyT03pvjb7ILiYJE=
+github.com/danielgatis/go-utf8 v1.0.0 h1:M7z8heSUa2PF1NoxgD0X6LbOAqMskMf433lFP/Qtal0=
+github.com/danielgatis/go-utf8 v1.0.0/go.mod h1:h8SG9aqqV20w8tUD7maLYwfAeQzvjDXNP89oth2qOxM=
+github.com/danielgatis/go-vte v1.0.7 h1:i408LmEBBvIVjJ95ZAPx+xcgXmOZNOzCxL1VCn4DvWc=
+github.com/danielgatis/go-vte v1.0.7/go.mod h1:HBeSBT/XiLQRNEoYpBYrBeK2mSUkOfHvsVtb8LPmexQ=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
