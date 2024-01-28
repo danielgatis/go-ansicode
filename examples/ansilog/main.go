@@ -8,14 +8,13 @@ import (
 	"os"
 
 	"github.com/danielgatis/go-ansicode"
-	"github.com/danielgatis/go-vte"
 )
 
-var _ ansicode.Logger = (*log)(nil)
+var _ ansicode.Logger = (*logger)(nil)
 
-type log struct{}
+type logger struct{}
 
-func (l *log) Tracef(format string, args ...interface{}) {
+func (l *logger) Tracef(format string, args ...interface{}) {
 	fmt.Printf("TRACE: "+format, args...)
 }
 
@@ -266,9 +265,7 @@ func (*handler) IdentifyTerminal(b byte) {
 }
 
 func main() {
-	performer := ansicode.NewPerformer(&handler{}, &log{})
-	parser := vte.NewParser(performer)
-	decoder := ansicode.NewDecoder(parser)
+	decoder := ansicode.NewDecoder(&handler{}, &logger{})
 
 	reader := bufio.NewReader(os.Stdin)
 	buff := make([]byte, 2048)

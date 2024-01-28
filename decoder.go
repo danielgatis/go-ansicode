@@ -2,6 +2,8 @@ package ansicode
 
 import (
 	"io"
+
+	"github.com/danielgatis/go-vte"
 )
 
 var _ io.ByteWriter = (*Decoder)(nil)
@@ -19,7 +21,10 @@ type Decoder struct {
 }
 
 // NewDecoder creates a new Decoder.
-func NewDecoder(parser Parser) *Decoder {
+func NewDecoder(handler Handler, logger Logger) *Decoder {
+	performer := NewPerformer(handler, logger)
+	parser := vte.NewParser(performer)
+
 	return &Decoder{
 		parser: parser,
 	}

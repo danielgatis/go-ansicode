@@ -9,7 +9,7 @@ type Performer struct {
 	precedingRune    rune
 }
 
-// NewPerformer creates a new Performer.
+// newPerformer creates a new Performer.
 func NewPerformer(handler Handler, logger Logger) *Performer {
 	return &Performer{
 		handler: handler,
