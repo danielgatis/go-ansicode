@@ -301,9 +301,8 @@ func TestPerformer_EscDispatch(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			handler := &handlerMock{}
-			logger := &loggerMock{}
 
-			performer := NewPerformer(handler, logger)
+			performer := NewPerformer(handler)
 			performer.EscDispatch(tt.args.intermediates, tt.args.ignore, tt.args.b)
 
 			assert.Equal(t, tt.want.mock, handler)

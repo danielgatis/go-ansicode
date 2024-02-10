@@ -35,9 +35,8 @@ func TestPerformer_Execute(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			handler := &handlerMock{}
-			logger := &loggerMock{}
 
-			performer := NewPerformer(handler, logger)
+			performer := NewPerformer(handler)
 			performer.Execute(tt.args.r)
 
 			assert.Equal(t, tt.want.mock, handler)

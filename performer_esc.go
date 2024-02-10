@@ -116,7 +116,7 @@ func (p *Performer) EscDispatch(intermediates []byte, ignore bool, b byte) {
 			p.handler.ConfigureCharset(CharsetIndexG3, StandardCharsetASCII)
 
 		default:
-			p.logger.Tracef("Unhandled ESC B intermediates=%v ignore=%v byte=%v", intermediates, ignore, b)
+			log.Tracef("Unhandled ESC B intermediates=%v ignore=%v byte=%v", intermediates, ignore, b)
 		}
 
 	case b == 'D' && len(intermediates) == 0:
@@ -153,7 +153,7 @@ func (p *Performer) EscDispatch(intermediates []byte, ignore bool, b byte) {
 			p.handler.ConfigureCharset(CharsetIndexG3, StandardCharsetSpecialCharacterAndLineDrawing)
 
 		default:
-			p.logger.Tracef("Unhandled ESC B intermediates=%v ignore=%v byte=%v", intermediates, ignore, b)
+			log.Tracef("Unhandled ESC B intermediates=%v ignore=%v byte=%v", intermediates, ignore, b)
 		}
 
 	case b == '7' && len(intermediates) == 0:
@@ -175,6 +175,6 @@ func (p *Performer) EscDispatch(intermediates []byte, ignore bool, b byte) {
 		// Do nothing.
 
 	default:
-		p.logger.Tracef("Unhandled ESC pintermediates=%v ignore=%v byte=%v", intermediates, ignore, b)
+		log.Tracef("Unhandled ESC pintermediates=%v ignore=%v byte=%v", intermediates, ignore, b)
 	}
 }

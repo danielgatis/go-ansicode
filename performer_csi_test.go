@@ -244,9 +244,8 @@ func TestPerformer_CsiDispatch(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			handler := &handlerMock{}
-			logger := &loggerMock{}
 
-			performer := NewPerformer(handler, logger)
+			performer := NewPerformer(handler)
 			performer.precedingRune = 'X'
 			performer.hasPrecedingRune = true
 			performer.CsiDispatch(tt.args.params, tt.args.intermediates, tt.args.ignore, tt.args.action)

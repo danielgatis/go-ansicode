@@ -277,7 +277,7 @@ func (p *Performer) CsiDispatch(params [][]uint16, intermediates []byte, ignore 
 			if ok {
 				p.handler.UnsetMode(mode)
 			} else {
-				p.logger.Tracef("Unhandled CSI params=%v intermediates=%v ignore=%v action=%v", params, intermediates, ignore, action)
+				log.Tracef("Unhandled CSI params=%v intermediates=%v ignore=%v action=%v", params, intermediates, ignore, action)
 			}
 		}
 
@@ -287,7 +287,7 @@ func (p *Performer) CsiDispatch(params [][]uint16, intermediates []byte, ignore 
 			if ok {
 				p.handler.UnsetMode(mode)
 			} else {
-				p.logger.Tracef("Unhandled CSI params=%v intermediates=%v ignore=%v action=%v", params, intermediates, ignore, action)
+				log.Tracef("Unhandled CSI params=%v intermediates=%v ignore=%v action=%v", params, intermediates, ignore, action)
 			}
 		}
 
@@ -304,7 +304,7 @@ func (p *Performer) CsiDispatch(params [][]uint16, intermediates []byte, ignore 
 		for paramsIter.HasNext() {
 			param, ok := paramsIter.GetNext()
 			if !ok {
-				p.logger.Tracef("Unhandled CSI params=%v intermediates=%v ignore=%v action=%v", params, intermediates, ignore, action)
+				log.Tracef("Unhandled CSI params=%v intermediates=%v ignore=%v action=%v", params, intermediates, ignore, action)
 				continue
 			}
 
@@ -549,14 +549,14 @@ func (p *Performer) CsiDispatch(params [][]uint16, intermediates []byte, ignore 
 				p.handler.SetTerminalCharAttribute(attrWithNamedColor(CharAttributeBackground, NamedColorBrightWhite))
 
 			default:
-				p.logger.Tracef("Unhandled CSI params=%v intermediates=%v ignore=%v action=%v", params, intermediates, ignore, action)
+				log.Tracef("Unhandled CSI params=%v intermediates=%v ignore=%v action=%v", params, intermediates, ignore, action)
 			}
 		}
 
 	case action == 'm' && len(intermediates) > 0 && intermediates[0] == '>':
 		n := paramsIter.GetNextOrDefault(0)
 		if n != 4 {
-			p.logger.Tracef("Unhandled CSI params=%v intermediates=%v ignore=%v action=%v", params, intermediates, ignore, action)
+			log.Tracef("Unhandled CSI params=%v intermediates=%v ignore=%v action=%v", params, intermediates, ignore, action)
 			return
 		}
 
@@ -573,13 +573,13 @@ func (p *Performer) CsiDispatch(params [][]uint16, intermediates []byte, ignore 
 			p.handler.SetModifyOtherKeys(ModifyOtherKeysResetEnableAll)
 
 		default:
-			p.logger.Tracef("Unhandled CSI params=%v intermediates=%v ignore=%v action=%v", params, intermediates, ignore, action)
+			log.Tracef("Unhandled CSI params=%v intermediates=%v ignore=%v action=%v", params, intermediates, ignore, action)
 		}
 
 	case action == 'm' && len(intermediates) > 0 && intermediates[0] == '?':
 		n := paramsIter.GetNextOrDefault(0)
 		if n != 4 {
-			p.logger.Tracef("Unhandled CSI params=%v intermediates=%v ignore=%v action=%v", params, intermediates, ignore, action)
+			log.Tracef("Unhandled CSI params=%v intermediates=%v ignore=%v action=%v", params, intermediates, ignore, action)
 			return
 		}
 
@@ -619,7 +619,7 @@ func (p *Performer) CsiDispatch(params [][]uint16, intermediates []byte, ignore 
 			p.handler.SetCursorStyle(CursorStyleSteadyBar)
 
 		default:
-			p.logger.Tracef("Unhandled CSI params=%v intermediates=%v ignore=%v action=%v", params, intermediates, ignore, action)
+			log.Tracef("Unhandled CSI params=%v intermediates=%v ignore=%v action=%v", params, intermediates, ignore, action)
 		}
 
 	case action == 'r' && len(intermediates) == 0:
@@ -688,7 +688,7 @@ func (p *Performer) CsiDispatch(params [][]uint16, intermediates []byte, ignore 
 		p.handler.MoveBackwardTabs(int(n))
 
 	default:
-		p.logger.Tracef("Unhandled CSI params=%v intermediates=%v ignore=%v action=%v", params, intermediates, ignore, action)
+		log.Tracef("Unhandled CSI params=%v intermediates=%v ignore=%v action=%v", params, intermediates, ignore, action)
 	}
 }
 

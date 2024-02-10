@@ -10,14 +10,6 @@ import (
 	"github.com/danielgatis/go-ansicode"
 )
 
-var _ ansicode.Logger = (*logger)(nil)
-
-type logger struct{}
-
-func (l *logger) Tracef(format string, args ...interface{}) {
-	fmt.Printf("TRACE: "+format, args...)
-}
-
 var _ ansicode.Handler = (*handler)(nil)
 
 type handler struct{}
@@ -267,7 +259,7 @@ func (*handler) IdentifyTerminal(b byte) {
 }
 
 func main() {
-	decoder := ansicode.NewDecoder(&handler{}, &logger{})
+	decoder := ansicode.NewDecoder(&handler{})
 
 	reader := bufio.NewReader(os.Stdin)
 	buff := make([]byte, 2048)

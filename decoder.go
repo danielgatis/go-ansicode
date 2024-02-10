@@ -9,20 +9,14 @@ import (
 var _ io.ByteWriter = (*Decoder)(nil)
 var _ io.Writer = (*Decoder)(nil)
 
-// Parser is an interface for an ansi sequence parser.
-type Parser interface {
-	// Advance advances the parser with the given byte.
-	Advance(b byte)
-}
-
 // Decoder is a byte writer that decodes ANSI escape sequences.
 type Decoder struct {
-	parser Parser
+	parser *vte.Parser
 }
 
 // NewDecoder creates a new Decoder.
-func NewDecoder(handler Handler, logger Logger) *Decoder {
-	performer := NewPerformer(handler, logger)
+func NewDecoder(handler Handler) *Decoder {
+	performer := NewPerformer(handler)
 	parser := vte.NewParser(performer)
 
 	return &Decoder{

@@ -1,8 +1,15 @@
 package ansicode
 
-// Logger is a interface for logging.
-type Logger interface {
+import (
+	"github.com/golang/glog"
+)
 
-	// Tracef logs a message.
-	Tracef(format string, args ...interface{})
+var log = &Logger{}
+
+// Logger wraps the glog.Logger.
+type Logger struct{}
+
+// Info logs a message at Info level.
+func (l *Logger) Tracef(args ...interface{}) {
+	glog.V(2).Info(args...)
 }

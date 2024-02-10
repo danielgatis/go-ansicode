@@ -58,6 +58,6 @@ func (p *Performer) Execute(b byte) {
 	case c0SO:
 		p.handler.SetActiveCharset(1)
 	default:
-		p.logger.Tracef("Unhandled EXECUTE byte=%v", b)
+		log.Tracef("Unhandled EXECUTE byte=%v", b)
 	}
 }

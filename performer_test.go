@@ -9,7 +9,6 @@ import (
 func TestNewPerformer(t *testing.T) {
 	type args struct {
 		handler Handler
-		logger  Logger
 	}
 
 	type want struct {
@@ -21,12 +20,12 @@ func TestNewPerformer(t *testing.T) {
 		args args
 		want want
 	}{
-		{name: "new", args: args{handler: nil, logger: nil}, want: want{performer: &Performer{handler: nil}}},
+		{name: "new", args: args{handler: nil}, want: want{performer: &Performer{handler: nil}}},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got := NewPerformer(tt.args.handler, tt.args.logger)
+			got := NewPerformer(tt.args.handler)
 			assert.Equal(t, tt.want.performer, got)
 		})
 	}
