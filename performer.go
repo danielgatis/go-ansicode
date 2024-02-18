@@ -17,15 +17,15 @@ func NewPerformer(handler Handler) *Performer {
 
 // Unhook is used to handle unhook operations.
 func (p *Performer) Unhook() {
-	log.Tracef("Unhandled UNHOOK")
+	log.Debugf("Unhandled UNHOOK")
 }
 
 // Put is used to handle put operations.
 func (p *Performer) Put(b byte) {
-	log.Tracef("Unhandled PUT byte=%v", b)
+	log.Debugf("Unhandled PUT byte=%v", b)
 }
 
 // Hook is used to handle hook operations.
 func (p *Performer) Hook(params [][]uint16, intermediates []byte, ignore bool, r rune) {
-	log.Tracef("Unhandled HOOK params=%v intermediates=%v ignore=%v rune=%v", params, intermediates, ignore, r)
+	log.Debugf("Unhandled HOOK params=%v intermediates=%v ignore=%v rune=%v", params, intermediates, ignore, r)
 }

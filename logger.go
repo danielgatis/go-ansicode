@@ -1,15 +1,16 @@
 package ansicode
 
 import (
-	"github.com/golang/glog"
+	"fmt"
+	"log/slog"
 )
 
 var log = &Logger{}
 
-// Logger wraps the glog.Logger.
+// Logger wraps the slog.
 type Logger struct{}
 
-// Info logs a message at Info level.
-func (l *Logger) Tracef(args ...interface{}) {
-	glog.V(2).Info(args...)
+// Debugf logs a message at Debug level.
+func (l *Logger) Debugf(msg string, args ...interface{}) {
+	slog.Debug(fmt.Sprintf(msg, args...))
 }

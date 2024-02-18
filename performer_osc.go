@@ -42,18 +42,18 @@ func (p *Performer) OscDispatch(params [][]byte, bellTerminated bool) {
 			return
 		}
 
-		log.Tracef("Unhandled OSC params=%v bellTerminated=%v", params, bellTerminated)
+		log.Debugf("Unhandled OSC params=%v bellTerminated=%v", params, bellTerminated)
 
 	case "4":
 		if len(params) <= 1 || len(params)%2 == 0 {
-			log.Tracef("Unhandled OSC params=%v bellTerminated=%v", params, bellTerminated)
+			log.Debugf("Unhandled OSC params=%v bellTerminated=%v", params, bellTerminated)
 			return
 		}
 
 		for i := 1; i < len(params); i += 2 {
 			ps, ok := parseNumber(params[i])
 			if !ok {
-				log.Tracef("Unhandled OSC params=%v bellTerminated=%v", params, bellTerminated)
+				log.Debugf("Unhandled OSC params=%v bellTerminated=%v", params, bellTerminated)
 				continue
 			}
 
@@ -66,7 +66,7 @@ func (p *Performer) OscDispatch(params [][]byte, bellTerminated bool) {
 				prefix := fmt.Sprintf("4;%d", ps)
 				p.handler.SetDynamicColor(prefix, int(ps), terminator)
 			} else {
-				log.Tracef("Unhandled OSC params=%v bellTerminated=%v", params, bellTerminated)
+				log.Debugf("Unhandled OSC params=%v bellTerminated=%v", params, bellTerminated)
 			}
 		}
 
@@ -98,7 +98,7 @@ func (p *Performer) OscDispatch(params [][]byte, bellTerminated bool) {
 
 	case "10", "11", "12":
 		if len(params) < 2 {
-			log.Tracef("Unhandled OSC params=%v bellTerminated=%v", params, bellTerminated)
+			log.Debugf("Unhandled OSC params=%v bellTerminated=%v", params, bellTerminated)
 			return
 		}
 
@@ -112,7 +112,7 @@ func (p *Performer) OscDispatch(params [][]byte, bellTerminated bool) {
 			index := int(NamedColorForeground) + offset
 
 			if index > int(NamedColorCursor) {
-				log.Tracef("Unhandled OSC params=%v bellTerminated=%v", params, bellTerminated)
+				log.Debugf("Unhandled OSC params=%v bellTerminated=%v", params, bellTerminated)
 				break
 			}
 
@@ -122,7 +122,7 @@ func (p *Performer) OscDispatch(params [][]byte, bellTerminated bool) {
 			} else if string(param) == "?" {
 				p.handler.SetDynamicColor(strconv.Itoa(dynamicCode), index, terminator)
 			} else {
-				log.Tracef("Unhandled OSC params=%v bellTerminated=%v", params, bellTerminated)
+				log.Debugf("Unhandled OSC params=%v bellTerminated=%v", params, bellTerminated)
 			}
 
 			dynamicCode++
@@ -156,7 +156,7 @@ func (p *Performer) OscDispatch(params [][]byte, bellTerminated bool) {
 		p.handler.ResetColor(int(NamedColorCursor))
 
 	default:
-		log.Tracef("Unhandled OSC params=%v bellTerminated=%v", params, bellTerminated)
+		log.Debugf("Unhandled OSC params=%v bellTerminated=%v", params, bellTerminated)
 	}
 }
 
