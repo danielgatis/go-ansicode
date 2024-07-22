@@ -11,92 +11,14 @@ const (
 	CharsetIndexG3
 )
 
-// StandardCharset is used to select a standard charset.
-type StandardCharset int
+// Charset is used to select a standard charset.
+type Charset int
 
-// StandardCharset values.
+// Charset values.
 const (
-	StandardCharsetASCII StandardCharset = iota
-	StandardCharsetSpecialCharacterAndLineDrawing
+	CharsetASCII Charset = iota
+	CharsetLineDrawing
 )
-
-// Char returns the rune for the given rune in the given charset.
-func (sc StandardCharset) Char(c rune) rune {
-	switch sc {
-	case StandardCharsetASCII:
-		return c
-	case StandardCharsetSpecialCharacterAndLineDrawing:
-		switch c {
-		case '_':
-			return ' '
-		case '`':
-			return '◆'
-		case 'a':
-			return '▒'
-		case 'b':
-			return '␉'
-		case 'c':
-			return '␌'
-		case 'd':
-			return '␍'
-		case 'e':
-			return '␊'
-		case 'f':
-			return '°'
-		case 'g':
-			return '±'
-		case 'h':
-			return '␤'
-		case 'i':
-			return '␋'
-		case 'j':
-			return '┘'
-		case 'k':
-			return '┐'
-		case 'l':
-			return '┌'
-		case 'm':
-			return '└'
-		case 'n':
-			return '┼'
-		case 'o':
-			return '⎺'
-		case 'p':
-			return '⎻'
-		case 'q':
-			return '─'
-		case 'r':
-			return '⎼'
-		case 's':
-			return '⎽'
-		case 't':
-			return '├'
-		case 'u':
-			return '┤'
-		case 'v':
-			return '┴'
-		case 'w':
-			return '┬'
-		case 'x':
-			return '│'
-		case 'y':
-			return '≤'
-		case 'z':
-			return '≥'
-		case '{':
-			return 'π'
-		case '|':
-			return '≠'
-		case '}':
-			return '£'
-		case '~':
-			return '·'
-		default:
-			return c
-		}
-	}
-	return c
-}
 
 // EscDispatch is used to handle esc operations.
 func (p *Performer) EscDispatch(intermediates []byte, ignore bool, b byte) {
@@ -104,16 +26,16 @@ func (p *Performer) EscDispatch(intermediates []byte, ignore bool, b byte) {
 	case b == 'B' && len(intermediates) > 0:
 		switch intermediates[0] {
 		case '(':
-			p.handler.ConfigureCharset(CharsetIndexG0, StandardCharsetASCII)
+			p.handler.ConfigureCharset(CharsetIndexG0, CharsetASCII)
 
 		case ')':
-			p.handler.ConfigureCharset(CharsetIndexG1, StandardCharsetASCII)
+			p.handler.ConfigureCharset(CharsetIndexG1, CharsetASCII)
 
 		case '*':
-			p.handler.ConfigureCharset(CharsetIndexG2, StandardCharsetASCII)
+			p.handler.ConfigureCharset(CharsetIndexG2, CharsetASCII)
 
 		case '+':
-			p.handler.ConfigureCharset(CharsetIndexG3, StandardCharsetASCII)
+			p.handler.ConfigureCharset(CharsetIndexG3, CharsetASCII)
 
 		default:
 			log.Debugf("Unhandled ESC B intermediates=%v ignore=%v byte=%v", intermediates, ignore, b)
@@ -141,16 +63,16 @@ func (p *Performer) EscDispatch(intermediates []byte, ignore bool, b byte) {
 	case b == '0' && len(intermediates) > 0:
 		switch intermediates[0] {
 		case '(':
-			p.handler.ConfigureCharset(CharsetIndexG0, StandardCharsetSpecialCharacterAndLineDrawing)
+			p.handler.ConfigureCharset(CharsetIndexG0, CharsetLineDrawing)
 
 		case ')':
-			p.handler.ConfigureCharset(CharsetIndexG1, StandardCharsetSpecialCharacterAndLineDrawing)
+			p.handler.ConfigureCharset(CharsetIndexG1, CharsetLineDrawing)
 
 		case '*':
-			p.handler.ConfigureCharset(CharsetIndexG2, StandardCharsetSpecialCharacterAndLineDrawing)
+			p.handler.ConfigureCharset(CharsetIndexG2, CharsetLineDrawing)
 
 		case '+':
-			p.handler.ConfigureCharset(CharsetIndexG3, StandardCharsetSpecialCharacterAndLineDrawing)
+			p.handler.ConfigureCharset(CharsetIndexG3, CharsetLineDrawing)
 
 		default:
 			log.Debugf("Unhandled ESC B intermediates=%v ignore=%v byte=%v", intermediates, ignore, b)

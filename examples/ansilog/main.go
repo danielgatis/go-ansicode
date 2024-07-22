@@ -46,7 +46,7 @@ func (*handler) ClipboardStore(clp byte, d []byte) {
 	fmt.Printf("ClipboardStore %v %v\n", clp, d)
 }
 
-func (*handler) ConfigureCharset(index ansicode.CharsetIndex, charset ansicode.StandardCharset) {
+func (*handler) ConfigureCharset(index ansicode.CharsetIndex, charset ansicode.Charset) {
 	fmt.Printf("ConfigureCharset %v %v\n", index, charset)
 }
 

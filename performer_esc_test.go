@@ -6,221 +6,6 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestStandardCharset_Char(t *testing.T) {
-	tests := []struct {
-		name string
-		sc   StandardCharset
-		c    rune
-		want rune
-	}{
-		{
-			name: "Ascii",
-			sc:   StandardCharsetASCII,
-			c:    'A',
-			want: 'A',
-		},
-		{
-			name: "SpecialCharacterAndLineDrawing",
-			sc:   StandardCharsetSpecialCharacterAndLineDrawing,
-			c:    '_',
-			want: ' ',
-		},
-		{
-			name: "SpecialCharacterAndLineDrawing",
-			sc:   StandardCharsetSpecialCharacterAndLineDrawing,
-			c:    '`',
-			want: '◆',
-		},
-		{
-			name: "SpecialCharacterAndLineDrawing",
-			sc:   StandardCharsetSpecialCharacterAndLineDrawing,
-			c:    'a',
-			want: '▒',
-		},
-		{
-			name: "SpecialCharacterAndLineDrawing",
-			sc:   StandardCharsetSpecialCharacterAndLineDrawing,
-			c:    'b',
-			want: '␉',
-		},
-		{
-			name: "SpecialCharacterAndLineDrawing",
-			sc:   StandardCharsetSpecialCharacterAndLineDrawing,
-			c:    'c',
-			want: '␌',
-		},
-		{
-			name: "SpecialCharacterAndLineDrawing",
-			sc:   StandardCharsetSpecialCharacterAndLineDrawing,
-			c:    'd',
-			want: '␍',
-		},
-		{
-			name: "SpecialCharacterAndLineDrawing",
-			sc:   StandardCharsetSpecialCharacterAndLineDrawing,
-			c:    'e',
-			want: '␊',
-		},
-		{
-			name: "SpecialCharacterAndLineDrawing",
-			sc:   StandardCharsetSpecialCharacterAndLineDrawing,
-			c:    'f',
-			want: '°',
-		},
-		{
-			name: "SpecialCharacterAndLineDrawing",
-			sc:   StandardCharsetSpecialCharacterAndLineDrawing,
-			c:    'g',
-			want: '±',
-		},
-		{
-			name: "SpecialCharacterAndLineDrawing",
-			sc:   StandardCharsetSpecialCharacterAndLineDrawing,
-			c:    'h',
-			want: '␤',
-		},
-		{
-			name: "SpecialCharacterAndLineDrawing",
-			sc:   StandardCharsetSpecialCharacterAndLineDrawing,
-			c:    'i',
-			want: '␋',
-		},
-		{
-			name: "SpecialCharacterAndLineDrawing",
-			sc:   StandardCharsetSpecialCharacterAndLineDrawing,
-			c:    'j',
-			want: '┘',
-		},
-		{
-			name: "SpecialCharacterAndLineDrawing",
-			sc:   StandardCharsetSpecialCharacterAndLineDrawing,
-			c:    'k',
-			want: '┐',
-		},
-		{
-			name: "SpecialCharacterAndLineDrawing",
-			sc:   StandardCharsetSpecialCharacterAndLineDrawing,
-			c:    'l',
-			want: '┌',
-		},
-		{
-			name: "SpecialCharacterAndLineDrawing",
-			sc:   StandardCharsetSpecialCharacterAndLineDrawing,
-			c:    'm',
-			want: '└',
-		},
-		{
-			name: "SpecialCharacterAndLineDrawing",
-			sc:   StandardCharsetSpecialCharacterAndLineDrawing,
-			c:    'n',
-			want: '┼',
-		},
-		{
-			name: "SpecialCharacterAndLineDrawing",
-			sc:   StandardCharsetSpecialCharacterAndLineDrawing,
-			c:    'o',
-			want: '⎺',
-		},
-		{
-			name: "SpecialCharacterAndLineDrawing",
-			sc:   StandardCharsetSpecialCharacterAndLineDrawing,
-			c:    'p',
-			want: '⎻',
-		},
-		{
-			name: "SpecialCharacterAndLineDrawing",
-			sc:   StandardCharsetSpecialCharacterAndLineDrawing,
-			c:    'q',
-			want: '─',
-		},
-		{
-			name: "SpecialCharacterAndLineDrawing",
-			sc:   StandardCharsetSpecialCharacterAndLineDrawing,
-			c:    'r',
-			want: '⎼',
-		},
-		{
-			name: "SpecialCharacterAndLineDrawing",
-			sc:   StandardCharsetSpecialCharacterAndLineDrawing,
-			c:    's',
-			want: '⎽',
-		},
-		{
-			name: "SpecialCharacterAndLineDrawing",
-			sc:   StandardCharsetSpecialCharacterAndLineDrawing,
-			c:    't',
-			want: '├',
-		},
-		{
-			name: "SpecialCharacterAndLineDrawing",
-			sc:   StandardCharsetSpecialCharacterAndLineDrawing,
-			c:    'u',
-			want: '┤',
-		},
-		{
-			name: "SpecialCharacterAndLineDrawing",
-			sc:   StandardCharsetSpecialCharacterAndLineDrawing,
-			c:    'v',
-			want: '┴',
-		},
-		{
-			name: "SpecialCharacterAndLineDrawing",
-			sc:   StandardCharsetSpecialCharacterAndLineDrawing,
-			c:    'w',
-			want: '┬',
-		},
-		{
-			name: "SpecialCharacterAndLineDrawing",
-			sc:   StandardCharsetSpecialCharacterAndLineDrawing,
-			c:    'x',
-			want: '│',
-		},
-		{
-			name: "SpecialCharacterAndLineDrawing",
-			sc:   StandardCharsetSpecialCharacterAndLineDrawing,
-			c:    'y',
-			want: '≤',
-		},
-		{
-			name: "SpecialCharacterAndLineDrawing",
-			sc:   StandardCharsetSpecialCharacterAndLineDrawing,
-			c:    'z',
-			want: '≥',
-		},
-		{
-			name: "SpecialCharacterAndLineDrawing",
-			sc:   StandardCharsetSpecialCharacterAndLineDrawing,
-			c:    '{',
-			want: 'π',
-		},
-		{
-			name: "SpecialCharacterAndLineDrawing",
-			sc:   StandardCharsetSpecialCharacterAndLineDrawing,
-			c:    '|',
-			want: '≠',
-		},
-		{
-			name: "SpecialCharacterAndLineDrawing",
-			sc:   StandardCharsetSpecialCharacterAndLineDrawing,
-			c:    '}',
-			want: '£',
-		},
-		{
-			name: "SpecialCharacterAndLineDrawing",
-			sc:   StandardCharsetSpecialCharacterAndLineDrawing,
-			c:    '~',
-			want: '·',
-		},
-	}
-
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			s := StandardCharset(tt.sc)
-			assert.Equal(t, tt.want, s.Char(tt.c))
-		})
-	}
-}
-
 func TestPerformer_EscDispatch(t *testing.T) {
 	type args struct {
 		intermediates []byte
@@ -238,16 +23,16 @@ func TestPerformer_EscDispatch(t *testing.T) {
 		want want
 	}{
 		// ESC ( C
-		{name: "ESC ( B", args: args{intermediates: []byte{'('}, b: 'B'}, want: want{mock: m("ConfigureCharset", CharsetIndexG0, StandardCharsetASCII)}},
+		{name: "ESC ( B", args: args{intermediates: []byte{'('}, b: 'B'}, want: want{mock: m("ConfigureCharset", CharsetIndexG0, CharsetASCII)}},
 
 		// ESC ) C
-		{name: "ESC ) B", args: args{intermediates: []byte{')'}, b: 'B'}, want: want{mock: m("ConfigureCharset", CharsetIndexG1, StandardCharsetASCII)}},
+		{name: "ESC ) B", args: args{intermediates: []byte{')'}, b: 'B'}, want: want{mock: m("ConfigureCharset", CharsetIndexG1, CharsetASCII)}},
 
 		// ESC * C
-		{name: "ESC * B", args: args{intermediates: []byte{'*'}, b: 'B'}, want: want{mock: m("ConfigureCharset", CharsetIndexG2, StandardCharsetASCII)}},
+		{name: "ESC * B", args: args{intermediates: []byte{'*'}, b: 'B'}, want: want{mock: m("ConfigureCharset", CharsetIndexG2, CharsetASCII)}},
 
 		// ESC + C
-		{name: "ESC + B", args: args{intermediates: []byte{'+'}, b: 'B'}, want: want{mock: m("ConfigureCharset", CharsetIndexG3, StandardCharsetASCII)}},
+		{name: "ESC + B", args: args{intermediates: []byte{'+'}, b: 'B'}, want: want{mock: m("ConfigureCharset", CharsetIndexG3, CharsetASCII)}},
 
 		// ESC D
 		{name: "ESC D", args: args{b: 'D'}, want: want{mock: m("LineFeed")}},
@@ -271,16 +56,16 @@ func TestPerformer_EscDispatch(t *testing.T) {
 		{name: "ESC c", args: args{b: 'c'}, want: want{mock: m("ResetState")}},
 
 		// ESC ( 0
-		{name: "ESC ( 0", args: args{intermediates: []byte{'('}, b: '0'}, want: want{mock: m("ConfigureCharset", CharsetIndexG0, StandardCharsetSpecialCharacterAndLineDrawing)}},
+		{name: "ESC ( 0", args: args{intermediates: []byte{'('}, b: '0'}, want: want{mock: m("ConfigureCharset", CharsetIndexG0, CharsetLineDrawing)}},
 
 		// ESC ) 0
-		{name: "ESC ) 0", args: args{intermediates: []byte{')'}, b: '0'}, want: want{mock: m("ConfigureCharset", CharsetIndexG1, StandardCharsetSpecialCharacterAndLineDrawing)}},
+		{name: "ESC ) 0", args: args{intermediates: []byte{')'}, b: '0'}, want: want{mock: m("ConfigureCharset", CharsetIndexG1, CharsetLineDrawing)}},
 
 		// ESC * 0
-		{name: "ESC * 0", args: args{intermediates: []byte{'*'}, b: '0'}, want: want{mock: m("ConfigureCharset", CharsetIndexG2, StandardCharsetSpecialCharacterAndLineDrawing)}},
+		{name: "ESC * 0", args: args{intermediates: []byte{'*'}, b: '0'}, want: want{mock: m("ConfigureCharset", CharsetIndexG2, CharsetLineDrawing)}},
 
 		// ESC + 0
-		{name: "ESC + 0", args: args{intermediates: []byte{'+'}, b: '0'}, want: want{mock: m("ConfigureCharset", CharsetIndexG3, StandardCharsetSpecialCharacterAndLineDrawing)}},
+		{name: "ESC + 0", args: args{intermediates: []byte{'+'}, b: '0'}, want: want{mock: m("ConfigureCharset", CharsetIndexG3, CharsetLineDrawing)}},
 
 		// ESC 7
 		{name: "ESC 7", args: args{b: '7'}, want: want{mock: m("SaveCursorPosition")}},

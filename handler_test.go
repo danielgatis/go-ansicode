@@ -50,7 +50,7 @@ func (h *handlerMock) ClipboardStore(clp byte, d []byte) {
 	h.args = append(h.args, d)
 }
 
-func (h *handlerMock) ConfigureCharset(index CharsetIndex, charset StandardCharset) {
+func (h *handlerMock) ConfigureCharset(index CharsetIndex, charset Charset) {
 	h.called = append(h.called, "ConfigureCharset")
 	h.args = append(h.args, index)
 	h.args = append(h.args, charset)

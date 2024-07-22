@@ -29,7 +29,7 @@ type Handler interface {
 	ClipboardStore(clipboard byte, data []byte)
 
 	// ConfigureCharset configures the charset.
-	ConfigureCharset(index CharsetIndex, charset StandardCharset)
+	ConfigureCharset(index CharsetIndex, charset Charset)
 
 	// Dcaln runs the DECALN command.
 	Decaln()
