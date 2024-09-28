@@ -194,6 +194,10 @@ func (*handler) SetKeyboardMode(mode ansicode.KeyboardMode, behavior ansicode.Ke
 	fmt.Printf("SetKeyboardMode %v %v\n", mode, behavior)
 }
 
+func (*handler) SetMode(mode ansicode.TerminalMode) {
+	fmt.Printf("SetMode %v\n", mode)
+}
+
 func (*handler) SetModifyOtherKeys(modify ansicode.ModifyOtherKeys) {
 	fmt.Printf("SetModifyOtherKeys %v\n", modify)
 }
