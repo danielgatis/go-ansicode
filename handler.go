@@ -159,6 +159,9 @@ type Handler interface {
 	// SetKeypadApplicationMode sets keypad to applications mode.
 	SetKeypadApplicationMode()
 
+	// SetMode sets the given mode.
+	SetMode(mode TerminalMode)
+
 	// SetModifyOtherKeys sets the modify other keys mode. (XTERM)
 	SetModifyOtherKeys(modify ModifyOtherKeys)
 

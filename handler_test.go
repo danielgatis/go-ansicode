@@ -239,6 +239,11 @@ func (h *handlerMock) SetKeyboardMode(mode KeyboardMode, behavior KeyboardModeBe
 	h.args = append(h.args, behavior)
 }
 
+func (h *handlerMock) SetMode(mode TerminalMode) {
+	h.called = append(h.called, "SetMode")
+	h.args = append(h.args, mode)
+}
+
 func (h *handlerMock) SetModifyOtherKeys(modify ModifyOtherKeys) {
 	h.called = append(h.called, "SetModifyOtherKeys")
 	h.args = append(h.args, modify)

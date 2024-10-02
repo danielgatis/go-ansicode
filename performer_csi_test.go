@@ -95,6 +95,28 @@ func TestPerformer_CsiDispatch(t *testing.T) {
 		// CSI Ps L
 		{name: "CSI 3 L", args: args{params: [][]uint16{{3}}, action: 'L'}, want: want{mock: m("InsertBlankLines", 3)}},
 
+		// CSI Ps h
+		{name: "CSI 4 h", args: args{params: [][]uint16{{4}}, action: 'h'}, want: want{mock: m("SetMode", TerminalModeInsert)}},
+		{name: "CSI 20 h", args: args{params: [][]uint16{{20}}, action: 'h'}, want: want{mock: m("SetMode", TerminalModeLineFeedNewLine)}},
+
+		// CSI ? Ps h
+		{name: "CSI ? 1 h", args: args{params: [][]uint16{{1}}, intermediates: []byte{'?'}, action: 'h'}, want: want{mock: m("SetMode", TerminalModeCursorKeys)}},
+		{name: "CSI ? 3 h", args: args{params: [][]uint16{{3}}, intermediates: []byte{'?'}, action: 'h'}, want: want{mock: m("SetMode", TerminalModeColumnMode)}},
+		{name: "CSI ? 6 h", args: args{params: [][]uint16{{6}}, intermediates: []byte{'?'}, action: 'h'}, want: want{mock: m("SetMode", TerminalModeOrigin)}},
+		{name: "CSI ? 7 h", args: args{params: [][]uint16{{7}}, intermediates: []byte{'?'}, action: 'h'}, want: want{mock: m("SetMode", TerminalModeLineWrap)}},
+		{name: "CSI ? 12 h", args: args{params: [][]uint16{{12}}, intermediates: []byte{'?'}, action: 'h'}, want: want{mock: m("SetMode", TerminalModeBlinkingCursor)}},
+		{name: "CSI ? 25 h", args: args{params: [][]uint16{{25}}, intermediates: []byte{'?'}, action: 'h'}, want: want{mock: m("SetMode", TerminalModeShowCursor)}},
+		{name: "CSI ? 1000 h", args: args{params: [][]uint16{{1000}}, intermediates: []byte{'?'}, action: 'h'}, want: want{mock: m("SetMode", TerminalModeReportMouseClicks)}},
+		{name: "CSI ? 1002 h", args: args{params: [][]uint16{{1002}}, intermediates: []byte{'?'}, action: 'h'}, want: want{mock: m("SetMode", TerminalModeReportCellMouseMotion)}},
+		{name: "CSI ? 1003 h", args: args{params: [][]uint16{{1003}}, intermediates: []byte{'?'}, action: 'h'}, want: want{mock: m("SetMode", TerminalModeReportAllMouseMotion)}},
+		{name: "CSI ? 1004 h", args: args{params: [][]uint16{{1004}}, intermediates: []byte{'?'}, action: 'h'}, want: want{mock: m("SetMode", TerminalModeReportFocusInOut)}},
+		{name: "CSI ? 1005 h", args: args{params: [][]uint16{{1005}}, intermediates: []byte{'?'}, action: 'h'}, want: want{mock: m("SetMode", TerminalModeUTF8Mouse)}},
+		{name: "CSI ? 1006 h", args: args{params: [][]uint16{{1006}}, intermediates: []byte{'?'}, action: 'h'}, want: want{mock: m("SetMode", TerminalModeSGRMouse)}},
+		{name: "CSI ? 1007 h", args: args{params: [][]uint16{{1007}}, intermediates: []byte{'?'}, action: 'h'}, want: want{mock: m("SetMode", TerminalModeAlternateScroll)}},
+		{name: "CSI ? 1042 h", args: args{params: [][]uint16{{1042}}, intermediates: []byte{'?'}, action: 'h'}, want: want{mock: m("SetMode", TerminalModeUrgencyHints)}},
+		{name: "CSI ? 1049 h", args: args{params: [][]uint16{{1049}}, intermediates: []byte{'?'}, action: 'h'}, want: want{mock: m("SetMode", TerminalModeSwapScreenAndSetRestoreCursor)}},
+		{name: "CSI ? 2004 h", args: args{params: [][]uint16{{2004}}, intermediates: []byte{'?'}, action: 'h'}, want: want{mock: m("SetMode", TerminalModeBracketedPaste)}},
+
 		// CSI Ps l
 		{name: "CSI 4 l", args: args{params: [][]uint16{{4}}, action: 'l'}, want: want{mock: m("UnsetMode", TerminalModeInsert)}},
 		{name: "CSI 20 l", args: args{params: [][]uint16{{20}}, action: 'l'}, want: want{mock: m("UnsetMode", TerminalModeLineFeedNewLine)}},

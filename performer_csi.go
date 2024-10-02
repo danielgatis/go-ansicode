@@ -271,6 +271,26 @@ func (p *Performer) CsiDispatch(params [][]uint16, intermediates []byte, ignore 
 		n := paramsIter.GetNextOrDefault(1)
 		p.handler.InsertBlankLines(int(n))
 
+	case action == 'h' && len(intermediates) == 0:
+		for _, param := range flatParams {
+			mode, ok := terminalMode(param, false)
+			if ok {
+				p.handler.SetMode(mode)
+			} else {
+				log.Debugf("Unhandled CSI params=%v intermediates=%v ignore=%v action=%v", params, intermediates, ignore, action)
+			}
+		}
+
+	case action == 'h' && len(intermediates) > 0 && intermediates[0] == '?':
+		for _, param := range flatParams {
+			mode, ok := terminalMode(param, true)
+			if ok {
+				p.handler.SetMode(mode)
+			} else {
+				log.Debugf("Unhandled CSI params=%v intermediates=%v ignore=%v action=%v", params, intermediates, ignore, action)
+			}
+		}
+
 	case action == 'l' && len(intermediates) == 0:
 		for _, param := range flatParams {
 			mode, ok := terminalMode(param, false)
