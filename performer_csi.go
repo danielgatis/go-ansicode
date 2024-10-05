@@ -322,7 +322,12 @@ func (p *Performer) CsiDispatch(params [][]uint16, intermediates []byte, ignore 
 				p.handler.SetTerminalCharAttribute(attr(CharAttributeItalic))
 
 			case 4:
-				switch paramsIter.GetNextOrDefault(0) {
+				ps, ok := paramsIter.GetNext()
+				if !ok {
+					p.handler.SetTerminalCharAttribute(attr(CharAttributeUnderline))
+					break
+				}
+				switch ps {
 				case 0:
 					p.handler.SetTerminalCharAttribute(attr(CharAttributeCancelUnderline))
 
