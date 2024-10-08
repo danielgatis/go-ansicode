@@ -147,6 +147,7 @@ func TestPerformer_CsiDispatch(t *testing.T) {
 		{name: "CSI 1 m", args: args{params: [][]uint16{{1}}, action: 'm'}, want: want{mock: m("SetTerminalCharAttribute", attr(CharAttributeBold))}},
 		{name: "CSI 2 m", args: args{params: [][]uint16{{2}}, action: 'm'}, want: want{mock: m("SetTerminalCharAttribute", attr(CharAttributeDim))}},
 		{name: "CSI 3 m", args: args{params: [][]uint16{{3}}, action: 'm'}, want: want{mock: m("SetTerminalCharAttribute", attr(CharAttributeItalic))}},
+		{name: "CSI 4 m", args: args{params: [][]uint16{{4}}, action: 'm'}, want: want{mock: m("SetTerminalCharAttribute", attr(CharAttributeUnderline))}},
 		{name: "CSI 4 ; 0 m", args: args{params: [][]uint16{{4}, {0}}, action: 'm'}, want: want{mock: m("SetTerminalCharAttribute", attr(CharAttributeCancelUnderline))}},
 		{name: "CSI 4 ; 2 m", args: args{params: [][]uint16{{4}, {2}}, action: 'm'}, want: want{mock: m("SetTerminalCharAttribute", attr(CharAttributeDoubleUnderline))}},
 		{name: "CSI 4 ; 3 m", args: args{params: [][]uint16{{4}, {3}}, action: 'm'}, want: want{mock: m("SetTerminalCharAttribute", attr(CharAttributeCurlyUnderline))}},
