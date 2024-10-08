@@ -6,7 +6,7 @@ var _ color.Color = RGBColor{}
 
 // IndexedColor is a color that can be represented by an index.
 type IndexedColor struct {
-	idx byte
+	Index byte
 }
 
 // RGBColor is a color that can be represented by RGB values.
