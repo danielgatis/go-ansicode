@@ -4,8 +4,8 @@ go 1.21
 
 require (
 	github.com/danielgatis/go-iterator v0.0.1
-	github.com/danielgatis/go-vte v1.0.7
-	github.com/stretchr/testify v1.8.4
+	github.com/danielgatis/go-vte v1.0.8
+	github.com/stretchr/testify v1.9.0
 )
 
 require (
