@@ -174,7 +174,7 @@ type Handler interface {
 	// SetTitle sets the window title.
 	SetTitle(title string)
 
-	// Substitue replaces the character under the cursor.
+	// Substitute replaces the character under the cursor.
 	Substitute()
 
 	// Tab moves the cursor to the next tab stop.
