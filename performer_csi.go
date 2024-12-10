@@ -201,6 +201,11 @@ func (p *Performer) CsiDispatch(params [][]uint16, intermediates []byte, ignore 
 
 	case action == 'd' && len(intermediates) == 0:
 		n := paramsIter.GetNextOrDefault(1)
+
+		if n < 1 {
+			n = 1
+		}
+
 		p.handler.GotoLine(int(n - 1))
 
 	case action == 'E' && len(intermediates) == 0:
@@ -213,6 +218,11 @@ func (p *Performer) CsiDispatch(params [][]uint16, intermediates []byte, ignore 
 
 	case action == 'G' && len(intermediates) == 0, action == '`' && len(intermediates) == 0:
 		n := paramsIter.GetNextOrDefault(1)
+
+		if n < 1 {
+			n = 1
+		}
+
 		p.handler.GotoCol(int(n - 1))
 
 	case action == 'g' && len(intermediates) == 0:
@@ -228,6 +238,14 @@ func (p *Performer) CsiDispatch(params [][]uint16, intermediates []byte, ignore 
 	case action == 'H' && len(intermediates) == 0, action == 'f' && len(intermediates) == 0:
 		y := paramsIter.GetNextOrDefault(1)
 		x := paramsIter.GetNextOrDefault(1)
+
+		if x < 1 {
+			x = 1
+		}
+
+		if y < 1 {
+			y = 1
+		}
 
 		p.handler.Goto(int(y-1), int(x-1))
 

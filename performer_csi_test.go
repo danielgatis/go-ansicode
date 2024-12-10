@@ -28,6 +28,7 @@ func TestPerformer_CsiDispatch(t *testing.T) {
 
 		// CSI Ps `
 		{name: "CSI 3 `", args: args{params: [][]uint16{{3}}, action: '`'}, want: want{mock: m("GotoCol", 2)}},
+		{name: "CSI 0 `", args: args{params: [][]uint16{{0}}, action: '`'}, want: want{mock: m("GotoCol", 0)}},
 
 		// CSI Ps @
 		{name: "CSI 3 @", args: args{params: [][]uint16{{3}}, action: '@'}, want: want{mock: m("InsertBlank", 3)}},
@@ -55,6 +56,7 @@ func TestPerformer_CsiDispatch(t *testing.T) {
 
 		// CSI Ps d
 		{name: "CSI 3 d", args: args{params: [][]uint16{{3}}, action: 'd'}, want: want{mock: m("GotoLine", 2)}},
+		{name: "CSI 0 d", args: args{params: [][]uint16{{0}}, action: 'd'}, want: want{mock: m("GotoLine", 0)}},
 
 		// CSI Ps E
 		{name: "CSI 3 E", args: args{params: [][]uint16{{3}}, action: 'E'}, want: want{mock: m("MoveDownCr", 2)}},
@@ -74,9 +76,11 @@ func TestPerformer_CsiDispatch(t *testing.T) {
 
 		// CSI Ps ; Ps H
 		{name: "CSI 5 ; 3 H", args: args{params: [][]uint16{{5}, {3}}, action: 'H'}, want: want{mock: m("Goto", 4, 2)}},
+		{name: "CSI 0 ; 0 H", args: args{params: [][]uint16{{0}, {0}}, action: 'H'}, want: want{mock: m("Goto", 0, 0)}},
 
 		// CSI Ps ; Ps f
 		{name: "CSI 5 ; 3 f", args: args{params: [][]uint16{{5}, {3}}, action: 'f'}, want: want{mock: m("Goto", 4, 2)}},
+		{name: "CSI 0 ; 0 f", args: args{params: [][]uint16{{0}, {0}}, action: 'f'}, want: want{mock: m("Goto", 0, 0)}},
 
 		// CSI Ps I
 		{name: "CSI 3 I", args: args{params: [][]uint16{{3}}, action: 'I'}, want: want{mock: m("MoveForwardTabs", 3)}},
