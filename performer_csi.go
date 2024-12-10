@@ -431,24 +431,22 @@ func (p *Performer) CsiDispatch(params [][]uint16, intermediates []byte, ignore 
 				p.handler.SetTerminalCharAttribute(attrWithNamedColor(CharAttributeForeground, NamedColorWhite))
 
 			case 38:
-				for paramsIter.HasNext() {
-					m, ok := paramsIter.GetNext()
-					if !ok {
-						continue
-					}
+				m, ok := paramsIter.GetNext()
+				if !ok {
+					continue
+				}
 
-					switch m {
-					case 2:
-						r := paramsIter.GetNextOrDefault(0)
-						g := paramsIter.GetNextOrDefault(0)
-						b := paramsIter.GetNextOrDefault(0)
+				switch m {
+				case 2:
+					r := paramsIter.GetNextOrDefault(0)
+					g := paramsIter.GetNextOrDefault(0)
+					b := paramsIter.GetNextOrDefault(0)
 
-						p.handler.SetTerminalCharAttribute(attrWithRGBColor(CharAttributeForeground, r, g, b))
+					p.handler.SetTerminalCharAttribute(attrWithRGBColor(CharAttributeForeground, r, g, b))
 
-					case 5:
-						i := paramsIter.GetNextOrDefault(0)
-						p.handler.SetTerminalCharAttribute(attrWithIndexedColor(CharAttributeForeground, i))
-					}
+				case 5:
+					i := paramsIter.GetNextOrDefault(0)
+					p.handler.SetTerminalCharAttribute(attrWithIndexedColor(CharAttributeForeground, i))
 				}
 
 			case 39:
@@ -479,47 +477,43 @@ func (p *Performer) CsiDispatch(params [][]uint16, intermediates []byte, ignore 
 				p.handler.SetTerminalCharAttribute(attrWithNamedColor(CharAttributeBackground, NamedColorWhite))
 
 			case 48:
-				for paramsIter.HasNext() {
-					m, ok := paramsIter.GetNext()
-					if !ok {
-						continue
-					}
+				m, ok := paramsIter.GetNext()
+				if !ok {
+					continue
+				}
 
-					switch m {
-					case 2:
-						r := paramsIter.GetNextOrDefault(0)
-						g := paramsIter.GetNextOrDefault(0)
-						b := paramsIter.GetNextOrDefault(0)
+				switch m {
+				case 2:
+					r := paramsIter.GetNextOrDefault(0)
+					g := paramsIter.GetNextOrDefault(0)
+					b := paramsIter.GetNextOrDefault(0)
 
-						p.handler.SetTerminalCharAttribute(attrWithRGBColor(CharAttributeBackground, r, g, b))
+					p.handler.SetTerminalCharAttribute(attrWithRGBColor(CharAttributeBackground, r, g, b))
 
-					case 5:
-						i := paramsIter.GetNextOrDefault(0)
-						p.handler.SetTerminalCharAttribute(attrWithIndexedColor(CharAttributeBackground, i))
-					}
+				case 5:
+					i := paramsIter.GetNextOrDefault(0)
+					p.handler.SetTerminalCharAttribute(attrWithIndexedColor(CharAttributeBackground, i))
 				}
 
 			case 49:
 				p.handler.SetTerminalCharAttribute(attrWithNamedColor(CharAttributeBackground, NamedColorBackground))
 
 			case 58:
-				for paramsIter.HasNext() {
-					m, ok := paramsIter.GetNext()
-					if !ok {
-						continue
-					}
+				m, ok := paramsIter.GetNext()
+				if !ok {
+					continue
+				}
 
-					switch m {
-					case 2:
-						r := paramsIter.GetNextOrDefault(0)
-						g := paramsIter.GetNextOrDefault(0)
-						b := paramsIter.GetNextOrDefault(0)
+				switch m {
+				case 2:
+					r := paramsIter.GetNextOrDefault(0)
+					g := paramsIter.GetNextOrDefault(0)
+					b := paramsIter.GetNextOrDefault(0)
 
-						p.handler.SetTerminalCharAttribute(attrWithRGBColor(CharAttributeUnderlineColor, r, g, b))
-					case 5:
-						i := paramsIter.GetNextOrDefault(0)
-						p.handler.SetTerminalCharAttribute(attrWithIndexedColor(CharAttributeUnderlineColor, i))
-					}
+					p.handler.SetTerminalCharAttribute(attrWithRGBColor(CharAttributeUnderlineColor, r, g, b))
+				case 5:
+					i := paramsIter.GetNextOrDefault(0)
+					p.handler.SetTerminalCharAttribute(attrWithIndexedColor(CharAttributeUnderlineColor, i))
 				}
 
 			case 59:
