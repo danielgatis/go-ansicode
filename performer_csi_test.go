@@ -177,6 +177,7 @@ func TestPerformer_CsiDispatch(t *testing.T) {
 		{name: "CSI 37 m", args: args{params: [][]uint16{{37}}, action: 'm'}, want: want{mock: m("SetTerminalCharAttribute", attrWithNamedColor(CharAttributeForeground, NamedColorWhite))}},
 		{name: "CSI 38 ; 5 ; 31 m", args: args{params: [][]uint16{{38}, {5}, {31}}, action: 'm'}, want: want{mock: m("SetTerminalCharAttribute", attrWithIndexedColor(CharAttributeForeground, 31))}},
 		{name: "CSI 38 ; 2 ; 3 ; 3 ; 3 m", args: args{params: [][]uint16{{38}, {2}, {3}, {3}, {3}}, action: 'm'}, want: want{mock: m("SetTerminalCharAttribute", attrWithRGBColor(CharAttributeForeground, 3, 3, 3))}},
+		{name: "CSI 38; 2; 0; 0; 0; 48; 2; 255; 255; 255 m", args: args{params: [][]uint16{{38}, {2}, {0}, {0}, {0}, {48}, {2}, {255}, {255}, {255}}, action: 'm'}, want: want{mock: ms([]string{"SetTerminalCharAttribute", "SetTerminalCharAttribute"}, attrWithRGBColor(CharAttributeForeground, 0, 0, 0), attrWithRGBColor(CharAttributeBackground, 255, 255, 255))}},
 		{name: "CSI 39 m", args: args{params: [][]uint16{{39}}, action: 'm'}, want: want{mock: m("SetTerminalCharAttribute", attrWithNamedColor(CharAttributeForeground, NamedColorForeground))}},
 		{name: "CSI 40 m", args: args{params: [][]uint16{{40}}, action: 'm'}, want: want{mock: m("SetTerminalCharAttribute", attrWithNamedColor(CharAttributeBackground, NamedColorBlack))}},
 		{name: "CSI 41 m", args: args{params: [][]uint16{{41}}, action: 'm'}, want: want{mock: m("SetTerminalCharAttribute", attrWithNamedColor(CharAttributeBackground, NamedColorRed))}},
