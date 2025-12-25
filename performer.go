@@ -29,3 +29,8 @@ func (p *Performer) Put(b byte) {
 func (p *Performer) Hook(params [][]uint16, intermediates []byte, ignore bool, r rune) {
 	log.Debugf("Unhandled HOOK params=%v intermediates=%v ignore=%v rune=%v", params, intermediates, ignore, r)
 }
+
+// SosPmApcDispatch is called when a SOS/PM/APC sequence is complete.
+func (p *Performer) SosPmApcDispatch(kind byte, data []byte, bellTerminated bool) {
+	log.Debugf("Unhandled SOS/PM/APC kind=%v data=%v bellTerminated=%v", kind, data, bellTerminated)
+}

@@ -30,3 +30,53 @@ func TestNewPerformer(t *testing.T) {
 		})
 	}
 }
+
+func TestPerformer_SosPmApcDispatch(t *testing.T) {
+	tests := []struct {
+		name           string
+		kind           byte
+		data           []byte
+		bellTerminated bool
+	}{
+		{
+			name:           "SOS sequence",
+			kind:           0, // SosKind
+			data:           []byte("test sos data"),
+			bellTerminated: false,
+		},
+		{
+			name:           "PM sequence",
+			kind:           1, // PmKind
+			data:           []byte("test pm data"),
+			bellTerminated: false,
+		},
+		{
+			name:           "APC sequence",
+			kind:           2, // ApcKind
+			data:           []byte("test apc data"),
+			bellTerminated: false,
+		},
+		{
+			name:           "APC sequence bell terminated",
+			kind:           2, // ApcKind
+			data:           []byte("kitty graphics data"),
+			bellTerminated: true,
+		},
+		{
+			name:           "empty data",
+			kind:           0,
+			data:           []byte{},
+			bellTerminated: false,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			p := NewPerformer(nil)
+			// Should not panic even with nil handler
+			assert.NotPanics(t, func() {
+				p.SosPmApcDispatch(tt.kind, tt.data, tt.bellTerminated)
+			})
+		})
+	}
+}

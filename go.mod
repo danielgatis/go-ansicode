@@ -4,7 +4,7 @@ go 1.23
 
 require (
 	github.com/danielgatis/go-iterator v0.0.1
-	github.com/danielgatis/go-vte v1.0.9
+	github.com/danielgatis/go-vte v1.0.10
 	github.com/stretchr/testify v1.9.0
 )
 

@@ -11,7 +11,7 @@ go-ansicode is a package that interprets ANSI codes and allows you to register a
 ### C0
 
 | Operation | Description                      |
-| --------- | -------------------------------- |
+|-----------|----------------------------------|
 | NUL       | Null (NUL) character.            |
 | SOH       | Start of Heading (SOH).          |
 | STX       | Start of Text (STX).             |
@@ -48,7 +48,7 @@ go-ansicode is a package that interprets ANSI codes and allows you to register a
 ### C1
 
 | Operation | Description                                               |
-| --------- | --------------------------------------------------------- |
+|-----------|-----------------------------------------------------------|
 | IND       | Index - Move to the next line (Line Feed)                 |
 | NEL       | Next Line - Line Feed followed by Carriage Return         |
 | HTS       | Horizontal Tab Set                                        |
@@ -65,7 +65,7 @@ go-ansicode is a package that interprets ANSI codes and allows you to register a
 ### CSI
 
 | CSI Sequence      | Description                                          |
-| ----------------- | ---------------------------------------------------- |
+|-------------------|------------------------------------------------------|
 | `CSI Ps '`        | Single-character tabulation set (HTS)                |
 | `CSI Ps @`        | Character tabulation with justification (CHA)        |
 | `CSI Ps A`        | Line tabulation set (VTS)                            |
@@ -112,19 +112,30 @@ go-ansicode is a package that interprets ANSI codes and allows you to register a
 
 ### OSC
 
-| OSC Sequence                              | Description                           |
-| ----------------------------------------- | ------------------------------------- |
-| `OSC 0 ; Pt BEL`                          | Set icon name and window title        |
-| `OSC 2 ; Pt BEL`                          | Set window title                      |
-| `OSC 4 ; c ; spec BEL`                    | Change color in palette (8/16 colors) |
-| `OSC 8 ; params ; uri BEL`                | Set hyperlinks                        |
-| `OSC 10 ; Ps BEL`                         | Set foreground text color             |
-| `OSC 11 ; Ps BEL`                         | Set background text color             |
-| `OSC 12 ; Ps BEL`                         | Set cursor text color                 |
-| `OSC 104 ; c BEL`                         | Reset color in palette (8/16 colors)  |
-| `OSC 110 BEL`                             | Reset icon name and window title      |
-| `OSC 111 BEL`                             | Reset window title                    |
-| `OSC 112 BEL`                             | Reset color in palette (24-bit)       |
+| OSC Sequence               | Description                           |
+|----------------------------|---------------------------------------|
+| `OSC 0 ; Pt BEL`           | Set icon name and window title        |
+| `OSC 2 ; Pt BEL`           | Set window title                      |
+| `OSC 4 ; c ; spec BEL`     | Change color in palette (8/16 colors) |
+| `OSC 8 ; params ; uri BEL` | Set hyperlinks                        |
+| `OSC 10 ; Ps BEL`          | Set foreground text color             |
+| `OSC 11 ; Ps BEL`          | Set background text color             |
+| `OSC 12 ; Ps BEL`          | Set cursor text color                 |
+| `OSC 104 ; c BEL`          | Reset color in palette (8/16 colors)  |
+| `OSC 110 BEL`              | Reset icon name and window title      |
+| `OSC 111 BEL`              | Reset window title                    |
+| `OSC 112 BEL`              | Reset color in palette (24-bit)       |
+
+
+### SOS/PM/APC
+
+| Sequence       | Description                                                               |
+|----------------|---------------------------------------------------------------------------|
+| `ESC X ... ST` | Start of String (SOS) - Application-specific string data                  |
+| `ESC ^ ... ST` | Privacy Message (PM) - Private message for terminal                       |
+| `ESC _ ... ST` | Application Program Command (APC) - Used by protocols like Kitty Graphics |
+
+These sequences can also be terminated by BEL (0x07) instead of ST (ESC \).
 
 
 ## Install
