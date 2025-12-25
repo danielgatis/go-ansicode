@@ -4,6 +4,10 @@ import "image/color"
 
 // Handler is the interface that handles ANSI escape sequences.
 type Handler interface {
+	// ApplicationCommandReceived handles Application Program Command (APC) sequences (ESC _ ... ST).
+	// Used by protocols like Kitty Graphics.
+	ApplicationCommandReceived(data []byte)
+
 	// Backspace moves the cursor one position to the left.
 	Backspace()
 
@@ -104,6 +108,9 @@ type Handler interface {
 	// PopTitle pops the title from the stack.
 	PopTitle()
 
+	// PrivacyMessageReceived handles Privacy Message (PM) sequences (ESC ^ ... ST).
+	PrivacyMessageReceived(data []byte)
+
 	// PushKeyboardMode pushes the given keyboard mode to the stack.
 	PushKeyboardMode(mode KeyboardMode)
 
@@ -167,6 +174,9 @@ type Handler interface {
 
 	// SetScrollingRegion sets the scrolling region.
 	SetScrollingRegion(top int, bottom int)
+
+	// StartOfStringReceived handles Start of String (SOS) sequences (ESC X ... ST).
+	StartOfStringReceived(data []byte)
 
 	// SetTerminalCharAttribute sets the terminal char attribute.
 	SetTerminalCharAttribute(attr TerminalCharAttribute)

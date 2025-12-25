@@ -206,6 +206,18 @@ func (*handler) SetScrollingRegion(top int, bottom int) {
 	fmt.Printf("SetScrollingRegion %v %v\n", top, bottom)
 }
 
+func (*handler) StartOfStringReceived(data []byte) {
+	fmt.Printf("StartOfStringReceived data=%s\n", data)
+}
+
+func (*handler) PrivacyMessageReceived(data []byte) {
+	fmt.Printf("PrivacyMessageReceived data=%s\n", data)
+}
+
+func (*handler) ApplicationCommandReceived(data []byte) {
+	fmt.Printf("ApplicationCommandReceived data=%s\n", data)
+}
+
 func (*handler) SetTerminalCharAttribute(attr ansicode.TerminalCharAttribute) {
 	fmt.Printf("SetTerminalCharAttribute %v\n", attr)
 }

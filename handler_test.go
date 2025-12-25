@@ -255,6 +255,21 @@ func (h *handlerMock) SetScrollingRegion(top int, bottom int) {
 	h.args = append(h.args, bottom)
 }
 
+func (h *handlerMock) StartOfStringReceived(data []byte) {
+	h.called = append(h.called, "StartOfStringReceived")
+	h.args = append(h.args, data)
+}
+
+func (h *handlerMock) PrivacyMessageReceived(data []byte) {
+	h.called = append(h.called, "PrivacyMessageReceived")
+	h.args = append(h.args, data)
+}
+
+func (h *handlerMock) ApplicationCommandReceived(data []byte) {
+	h.called = append(h.called, "ApplicationCommandReceived")
+	h.args = append(h.args, data)
+}
+
 func (h *handlerMock) SetTerminalCharAttribute(attr TerminalCharAttribute) {
 	h.called = append(h.called, "SetTerminalCharAttribute")
 	h.args = append(h.args, attr)

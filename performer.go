@@ -32,5 +32,12 @@ func (p *Performer) Hook(params [][]uint16, intermediates []byte, ignore bool, r
 
 // SosPmApcDispatch is called when a SOS/PM/APC sequence is complete.
 func (p *Performer) SosPmApcDispatch(kind byte, data []byte, bellTerminated bool) {
-	log.Debugf("Unhandled SOS/PM/APC kind=%v data=%v bellTerminated=%v", kind, data, bellTerminated)
+	switch kind {
+	case 0: // SOS
+		p.handler.StartOfStringReceived(data)
+	case 1: // PM
+		p.handler.PrivacyMessageReceived(data)
+	case 2: // APC
+		p.handler.ApplicationCommandReceived(data)
+	}
 }
