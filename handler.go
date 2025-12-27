@@ -2,6 +2,20 @@ package ansicode
 
 import "image/color"
 
+// ShellIntegrationMark represents a shell integration mark type (OSC 133).
+type ShellIntegrationMark int
+
+const (
+	// PromptStart marks the beginning of the shell prompt (OSC 133 ; A).
+	PromptStart ShellIntegrationMark = iota
+	// CommandStart marks the end of prompt/start of user input (OSC 133 ; B).
+	CommandStart
+	// CommandExecuted marks when command execution begins (OSC 133 ; C).
+	CommandExecuted
+	// CommandFinished marks when command execution ends (OSC 133 ; D).
+	CommandFinished
+)
+
 // Handler is the interface that handles ANSI escape sequences.
 type Handler interface {
 	// ApplicationCommandReceived handles Application Program Command (APC) sequences (ESC _ ... ST).
@@ -184,6 +198,20 @@ type Handler interface {
 	// SetTitle sets the window title.
 	SetTitle(title string)
 
+	// SetWorkingDirectory sets the current working directory (OSC 7).
+	// uri is in the format "file://hostname/path/to/dir".
+	SetWorkingDirectory(uri string)
+
+	// ShellIntegrationMark handles shell integration marks (OSC 133).
+	// mark indicates the type of mark (PromptStart, CommandStart, CommandExecuted, CommandFinished).
+	// exitCode is only valid for CommandFinished marks (-1 if not provided).
+	ShellIntegrationMark(mark ShellIntegrationMark, exitCode int)
+
+	// SixelReceived is called when a complete Sixel image sequence is received.
+	// params contains the DCS parameters before 'q' (e.g., aspect ratio settings).
+	// data contains the Sixel image data.
+	SixelReceived(params [][]uint16, data []byte)
+
 	// Substitute replaces the character under the cursor.
 	Substitute()
 
@@ -195,6 +223,9 @@ type Handler interface {
 
 	// TextAreaSizePixels reports the text area size in pixels.
 	TextAreaSizePixels()
+
+	// CellSizePixels reports the cell size in pixels.
+	CellSizePixels()
 
 	// UnsetKeypadApplicationMode sets the keypad to numeric mode.
 	UnsetKeypadApplicationMode()

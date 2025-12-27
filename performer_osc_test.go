@@ -31,6 +31,12 @@ func TestPerformer_OscDispatch(t *testing.T) {
 		{name: "OSC 2 ; title BEL", args: args{params: [][]byte{[]byte("2"), []byte("title")}}, want: want{mock: m("SetTitle", "title")}},
 		{name: "OSC 2 ;", args: args{params: [][]byte{[]byte("2")}}, want: want{mock: &handlerMock{}}},
 
+		// OSC 7 ; URI BEL - Set working directory
+		{name: "OSC 7 ; file://host/path BEL", args: args{params: [][]byte{[]byte("7"), []byte("file://localhost/home/user")}, bellTerminated: true}, want: want{mock: m("SetWorkingDirectory", "file://localhost/home/user")}},
+		{name: "OSC 7 ; file://host/path ST", args: args{params: [][]byte{[]byte("7"), []byte("file://myhost/var/log")}}, want: want{mock: m("SetWorkingDirectory", "file://myhost/var/log")}},
+		{name: "OSC 7 ; URI with semicolons BEL", args: args{params: [][]byte{[]byte("7"), []byte("file://host/path"), []byte("extra")}, bellTerminated: true}, want: want{mock: m("SetWorkingDirectory", "file://host/path;extra")}},
+		{name: "OSC 7 (no URI)", args: args{params: [][]byte{[]byte("7")}, bellTerminated: true}, want: want{mock: &handlerMock{}}},
+
 		// OSC 4 ; c ; spec BEL
 		{name: "OSC 4 ; 0 ; rgb:bb/ee/ff BEL", args: args{params: [][]byte{[]byte("4"), []byte("0"), []byte("rgb:bb/ee/ff")}, bellTerminated: true}, want: want{mock: m("SetColor", 0, color.RGBA{0xbb, 0xee, 0xff, 0xff})}},
 		{name: "OSC 4 ; 0 ; #bbeeff BEL", args: args{params: [][]byte{[]byte("4"), []byte("0"), []byte("#bbeeff")}, bellTerminated: true}, want: want{mock: m("SetColor", 0, color.RGBA{0xbb, 0xee, 0xff, 0xff})}},
@@ -67,6 +73,16 @@ func TestPerformer_OscDispatch(t *testing.T) {
 
 		// OSC 112 BEL
 		{name: "OSC 112 BEL", args: args{params: [][]byte{[]byte("112")}, bellTerminated: true}, want: want{mock: m("ResetColor", int(NamedColorCursor))}},
+
+		// OSC 133 - Shell Integration
+		{name: "OSC 133 ; A BEL - Prompt start", args: args{params: [][]byte{[]byte("133"), []byte("A")}, bellTerminated: true}, want: want{mock: m("ShellIntegrationMark", PromptStart, -1)}},
+		{name: "OSC 133 ; B BEL - Command start", args: args{params: [][]byte{[]byte("133"), []byte("B")}, bellTerminated: true}, want: want{mock: m("ShellIntegrationMark", CommandStart, -1)}},
+		{name: "OSC 133 ; C BEL - Command executed", args: args{params: [][]byte{[]byte("133"), []byte("C")}, bellTerminated: true}, want: want{mock: m("ShellIntegrationMark", CommandExecuted, -1)}},
+		{name: "OSC 133 ; D BEL - Command finished (no exit code)", args: args{params: [][]byte{[]byte("133"), []byte("D")}, bellTerminated: true}, want: want{mock: m("ShellIntegrationMark", CommandFinished, -1)}},
+		{name: "OSC 133 ; D ; 0 BEL - Command finished (exit code 0)", args: args{params: [][]byte{[]byte("133"), []byte("D"), []byte("0")}, bellTerminated: true}, want: want{mock: m("ShellIntegrationMark", CommandFinished, 0)}},
+		{name: "OSC 133 ; D ; 1 BEL - Command finished (exit code 1)", args: args{params: [][]byte{[]byte("133"), []byte("D"), []byte("1")}, bellTerminated: true}, want: want{mock: m("ShellIntegrationMark", CommandFinished, 1)}},
+		{name: "OSC 133 ; D ; 127 BEL - Command finished (exit code 127)", args: args{params: [][]byte{[]byte("133"), []byte("D"), []byte("127")}, bellTerminated: true}, want: want{mock: m("ShellIntegrationMark", CommandFinished, 127)}},
+		{name: "OSC 133 (no params)", args: args{params: [][]byte{[]byte("133")}, bellTerminated: true}, want: want{mock: &handlerMock{}}},
 	}
 
 	for _, tt := range tests {

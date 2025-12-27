@@ -682,6 +682,9 @@ func (p *Performer) CsiDispatch(params [][]uint16, intermediates []byte, ignore 
 		case 14:
 			p.handler.TextAreaSizePixels()
 
+		case 16:
+			p.handler.CellSizePixels()
+
 		case 18:
 			p.handler.TextAreaSizeChars()
 

@@ -44,6 +44,23 @@ func (p *Performer) OscDispatch(params [][]byte, bellTerminated bool) {
 
 		log.Debugf("Unhandled OSC params=%v bellTerminated=%v", params, bellTerminated)
 
+	case "7":
+		// OSC 7 ; URI ST - Set working directory
+		// Format: file://hostname/path/to/dir
+		if len(params) >= 2 {
+			var buff bytes.Buffer
+			for i, param := range params[1:] {
+				if i > 0 {
+					buff.WriteString(";")
+				}
+				buff.Write(param)
+			}
+			uri := buff.String()
+			p.handler.SetWorkingDirectory(uri)
+			return
+		}
+		log.Debugf("Unhandled OSC 7 params=%v bellTerminated=%v", params, bellTerminated)
+
 	case "4":
 		if len(params) <= 1 || len(params)%2 == 0 {
 			log.Debugf("Unhandled OSC params=%v bellTerminated=%v", params, bellTerminated)
@@ -154,6 +171,37 @@ func (p *Performer) OscDispatch(params [][]byte, bellTerminated bool) {
 
 	case "112":
 		p.handler.ResetColor(int(NamedColorCursor))
+
+	case "133":
+		// Shell Integration (FinalTerm/iTerm2 style)
+		// OSC 133 ; A ST - Prompt start
+		// OSC 133 ; B ST - Command start (after prompt)
+		// OSC 133 ; C ST - Command executed
+		// OSC 133 ; D [; exitcode] ST - Command finished
+		if len(params) < 2 {
+			log.Debugf("Unhandled OSC 133 params=%v bellTerminated=%v", params, bellTerminated)
+			return
+		}
+
+		cmd := string(params[1])
+		switch cmd {
+		case "A":
+			p.handler.ShellIntegrationMark(PromptStart, -1)
+		case "B":
+			p.handler.ShellIntegrationMark(CommandStart, -1)
+		case "C":
+			p.handler.ShellIntegrationMark(CommandExecuted, -1)
+		case "D":
+			exitCode := -1
+			if len(params) >= 3 {
+				if code, ok := parseNumber(params[2]); ok {
+					exitCode = code
+				}
+			}
+			p.handler.ShellIntegrationMark(CommandFinished, exitCode)
+		default:
+			log.Debugf("Unhandled OSC 133 command=%s params=%v", cmd, params)
+		}
 
 	default:
 		log.Debugf("Unhandled OSC params=%v bellTerminated=%v", params, bellTerminated)

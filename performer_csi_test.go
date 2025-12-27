@@ -243,6 +243,7 @@ func TestPerformer_CsiDispatch(t *testing.T) {
 
 		// CSI Ps t
 		{name: "CSI 14 t", args: args{params: [][]uint16{{14}}, action: 't'}, want: want{mock: m("TextAreaSizePixels")}},
+		{name: "CSI 16 t", args: args{params: [][]uint16{{16}}, action: 't'}, want: want{mock: m("CellSizePixels")}},
 		{name: "CSI 18 t", args: args{params: [][]uint16{{18}}, action: 't'}, want: want{mock: m("TextAreaSizeChars")}},
 		{name: "CSI 22 t", args: args{params: [][]uint16{{22}}, action: 't'}, want: want{mock: m("PushTitle")}},
 		{name: "CSI 23 t", args: args{params: [][]uint16{{23}}, action: 't'}, want: want{mock: m("PopTitle")}},

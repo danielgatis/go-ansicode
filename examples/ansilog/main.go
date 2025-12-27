@@ -226,6 +226,10 @@ func (*handler) SetTitle(title string) {
 	fmt.Printf("SetTitle %v\n", title)
 }
 
+func (*handler) SetWorkingDirectory(uri string) {
+	fmt.Printf("SetWorkingDirectory %v\n", uri)
+}
+
 func (*handler) Substitute() {
 	fmt.Printf("Substitute\n")
 }
@@ -240,6 +244,10 @@ func (*handler) TextAreaSizeChars() {
 
 func (*handler) TextAreaSizePixels() {
 	fmt.Printf("TextAreaSizePixels\n")
+}
+
+func (*handler) CellSizePixels() {
+	fmt.Printf("CellSizePixels\n")
 }
 
 func (*handler) UnsetMode(mode ansicode.TerminalMode) {
@@ -272,6 +280,14 @@ func (*handler) Decaln() {
 
 func (*handler) IdentifyTerminal(b byte) {
 	fmt.Printf("IdentifyTerminal\n")
+}
+
+func (*handler) ShellIntegrationMark(mark ansicode.ShellIntegrationMark, exitCode int) {
+	fmt.Printf("ShellIntegrationMark mark=%d exitCode=%d\n", mark, exitCode)
+}
+
+func (*handler) SixelReceived(params [][]uint16, data []byte) {
+	fmt.Printf("SixelReceived params=%v dataLen=%d\n", params, len(data))
 }
 
 func main() {

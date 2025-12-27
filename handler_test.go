@@ -297,6 +297,10 @@ func (h *handlerMock) TextAreaSizePixels() {
 	h.called = append(h.called, "TextAreaSizePixels")
 }
 
+func (h *handlerMock) CellSizePixels() {
+	h.called = append(h.called, "CellSizePixels")
+}
+
 func (h *handlerMock) UnsetMode(mode TerminalMode) {
 	h.called = append(h.called, "UnsetMode")
 	h.args = append(h.args, mode)
@@ -324,6 +328,23 @@ func (h *handlerMock) HorizontalTabSet() {
 
 func (h *handlerMock) Decaln() {
 	h.called = append(h.called, "Decaln")
+}
+
+func (h *handlerMock) ShellIntegrationMark(mark ShellIntegrationMark, exitCode int) {
+	h.called = append(h.called, "ShellIntegrationMark")
+	h.args = append(h.args, mark)
+	h.args = append(h.args, exitCode)
+}
+
+func (h *handlerMock) SetWorkingDirectory(uri string) {
+	h.called = append(h.called, "SetWorkingDirectory")
+	h.args = append(h.args, uri)
+}
+
+func (h *handlerMock) SixelReceived(params [][]uint16, data []byte) {
+	h.called = append(h.called, "SixelReceived")
+	h.args = append(h.args, params)
+	h.args = append(h.args, data)
 }
 
 func ms(called []string, args ...interface{}) *handlerMock {
