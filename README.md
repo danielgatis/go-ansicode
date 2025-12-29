@@ -112,19 +112,62 @@ go-ansicode is a package that interprets ANSI codes and allows you to register a
 
 ### OSC
 
-| OSC Sequence               | Description                           |
-|----------------------------|---------------------------------------|
-| `OSC 0 ; Pt BEL`           | Set icon name and window title        |
-| `OSC 2 ; Pt BEL`           | Set window title                      |
-| `OSC 4 ; c ; spec BEL`     | Change color in palette (8/16 colors) |
-| `OSC 8 ; params ; uri BEL` | Set hyperlinks                        |
-| `OSC 10 ; Ps BEL`          | Set foreground text color             |
-| `OSC 11 ; Ps BEL`          | Set background text color             |
-| `OSC 12 ; Ps BEL`          | Set cursor text color                 |
-| `OSC 104 ; c BEL`          | Reset color in palette (8/16 colors)  |
-| `OSC 110 BEL`              | Reset icon name and window title      |
-| `OSC 111 BEL`              | Reset window title                    |
-| `OSC 112 BEL`              | Reset color in palette (24-bit)       |
+| OSC Sequence                    | Description                                |
+|---------------------------------|--------------------------------------------|
+| `OSC 0 ; Pt BEL`                | Set icon name and window title             |
+| `OSC 2 ; Pt BEL`                | Set window title                           |
+| `OSC 4 ; c ; spec BEL`          | Change color in palette (8/16 colors)      |
+| `OSC 7 ; URI BEL`               | Set working directory                      |
+| `OSC 8 ; params ; uri BEL`      | Set hyperlinks                             |
+| `OSC 10 ; Ps BEL`               | Set foreground text color                  |
+| `OSC 11 ; Ps BEL`               | Set background text color                  |
+| `OSC 12 ; Ps BEL`               | Set cursor text color                      |
+| `OSC 99 ; metadata ; data BEL`  | Desktop notifications (Kitty protocol)     |
+| `OSC 104 ; c BEL`               | Reset color in palette (8/16 colors)       |
+| `OSC 110 BEL`                   | Reset icon name and window title           |
+| `OSC 111 BEL`                   | Reset window title                         |
+| `OSC 112 BEL`                   | Reset color in palette (24-bit)            |
+| `OSC 133 ; cmd BEL`             | Shell integration marks                    |
+
+
+### OSC 99 - Desktop Notifications (Kitty Protocol)
+
+Desktop notifications allow terminal applications to send system notifications. The format is:
+
+```
+OSC 99 ; metadata ; payload ST
+```
+
+**Metadata fields** (colon-separated key=value pairs):
+
+| Key | Description                                              |
+|-----|----------------------------------------------------------|
+| `i` | Notification ID for tracking/chunking                    |
+| `d` | Done flag (0=more chunks coming, 1=complete)             |
+| `p` | Payload type: title, body, icon, buttons, close, alive, ?|
+| `e` | Encoding (1=base64)                                      |
+| `a` | Actions on click (focus, report)                         |
+| `c` | Track close events (1=yes)                               |
+| `w` | Timeout in ms (-1=OS default, 0=never)                   |
+| `f` | Application name (base64 encoded)                        |
+| `t` | Notification type for filtering (base64 encoded)         |
+| `n` | Icon name: error, warning, info, question                |
+| `g` | Icon cache UUID                                          |
+| `s` | Sound: system, silent, error, warn, info                 |
+| `u` | Urgency: 0=low, 1=normal, 2=critical                     |
+| `o` | Occasion: always, unfocused, invisible                   |
+
+**Example:**
+```bash
+# Simple notification
+printf '\033]99;;Hello World\007'
+
+# Notification with title and urgency
+printf '\033]99;i=1:p=title;My Title\007'
+printf '\033]99;i=1:p=body:u=2;Critical message!\007'
+```
+
+See: https://sw.kovidgoyal.net/kitty/desktop-notifications/
 
 
 ### SOS/PM/APC

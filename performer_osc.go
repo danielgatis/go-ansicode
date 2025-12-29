@@ -2,6 +2,7 @@ package ansicode
 
 import (
 	"bytes"
+	"encoding/base64"
 	"fmt"
 	"image/color"
 	"strconv"
@@ -203,6 +204,15 @@ func (p *Performer) OscDispatch(params [][]byte, bellTerminated bool) {
 			log.Debugf("Unhandled OSC 133 command=%s params=%v", cmd, params)
 		}
 
+	case "99":
+		// Desktop Notifications (Kitty protocol)
+		// Format: OSC 99 ; metadata ; payload ST
+		// See: https://sw.kovidgoyal.net/kitty/desktop-notifications/
+		payload := parseOSC99(params)
+		if payload != nil {
+			p.handler.DesktopNotification(payload)
+		}
+
 	default:
 		log.Debugf("Unhandled OSC params=%v bellTerminated=%v", params, bellTerminated)
 	}
@@ -287,4 +297,110 @@ func parseNumber(bytes []byte) (int, bool) {
 	}
 
 	return num, true
+}
+
+// parseOSC99 parses an OSC 99 desktop notification sequence.
+// Format: OSC 99 ; metadata ; payload ST
+// metadata is key=value pairs separated by ':'
+// payload is the notification data (title, body, icon, etc.)
+func parseOSC99(params [][]byte) *NotificationPayload {
+	// params[0] = "99"
+	// params[1] = metadata (may be empty)
+	// params[2] = payload data (may be empty)
+
+	payload := &NotificationPayload{
+		Done:    true, // default: complete notification
+		Urgency: 1,    // default: normal urgency
+		Timeout: -1,   // default: OS decides
+	}
+
+	// Parse metadata if present
+	if len(params) >= 2 && len(params[1]) > 0 {
+		parseOSC99Metadata(params[1], payload)
+	}
+
+	// Parse payload data if present
+	if len(params) >= 3 && len(params[2]) > 0 {
+		data := params[2]
+
+		// Decode base64 if encoding is set
+		if payload.Encoding == "1" {
+			decoded, err := base64.StdEncoding.DecodeString(string(data))
+			if err == nil {
+				payload.Data = decoded
+			} else {
+				// Try without padding
+				decoded, err = base64.RawStdEncoding.DecodeString(string(data))
+				if err == nil {
+					payload.Data = decoded
+				} else {
+					payload.Data = data
+				}
+			}
+		} else {
+			payload.Data = data
+		}
+	}
+
+	return payload
+}
+
+// parseOSC99Metadata parses the metadata portion of an OSC 99 sequence.
+// Format: key=value:key=value:...
+func parseOSC99Metadata(meta []byte, p *NotificationPayload) {
+	pairs := bytes.Split(meta, []byte(":"))
+	for _, pair := range pairs {
+		idx := bytes.IndexByte(pair, '=')
+		if idx == -1 {
+			continue
+		}
+
+		key := string(pair[:idx])
+		value := string(pair[idx+1:])
+
+		switch key {
+		case "i":
+			p.ID = value
+		case "d":
+			p.Done = value != "0"
+		case "p":
+			p.PayloadType = value
+		case "e":
+			p.Encoding = value
+		case "a":
+			p.Actions = strings.Split(value, ",")
+		case "c":
+			p.TrackClose = value == "1"
+		case "w":
+			if timeout, err := strconv.Atoi(value); err == nil {
+				p.Timeout = timeout
+			}
+		case "f":
+			// AppName is base64 encoded
+			if decoded, err := base64.StdEncoding.DecodeString(value); err == nil {
+				p.AppName = string(decoded)
+			} else {
+				p.AppName = value
+			}
+		case "t":
+			// Type is base64 encoded
+			if decoded, err := base64.StdEncoding.DecodeString(value); err == nil {
+				p.Type = string(decoded)
+			} else {
+				p.Type = value
+			}
+		case "n":
+			p.IconName = value
+		case "g":
+			p.IconCacheID = value
+		case "s":
+			p.Sound = value
+		case "u":
+			if urgency, err := strconv.Atoi(value); err == nil && urgency >= 0 && urgency <= 2 {
+				p.Urgency = urgency
+			}
+		case "o":
+			p.Occasion = value
+		}
+	}
 }

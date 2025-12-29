@@ -16,6 +16,56 @@ const (
 	CommandFinished
 )
 
+// NotificationPayload represents a desktop notification from OSC 99 (Kitty protocol).
+// See: https://sw.kovidgoyal.net/kitty/desktop-notifications/
+type NotificationPayload struct {
+	// ID is the unique identifier for chunking and tracking notifications.
+	ID string
+
+	// Done indicates if this is the final chunk (default true).
+	Done bool
+
+	// PayloadType specifies what kind of data is in Data.
+	// Values: "title", "body", "icon", "buttons", "close", "alive", "?" (query).
+	PayloadType string
+
+	// Encoding specifies the payload encoding ("1" = base64).
+	Encoding string
+
+	// Actions specifies click behavior: "focus", "report".
+	Actions []string
+
+	// TrackClose indicates if close events should be reported.
+	TrackClose bool
+
+	// Timeout is auto-expiry in milliseconds (-1 = OS default, 0 = never).
+	Timeout int
+
+	// AppName is the application name.
+	AppName string
+
+	// Type is the notification type for filtering.
+	Type string
+
+	// IconName is a standard icon: "error", "warning", "info", "question".
+	IconName string
+
+	// IconCacheID is a UUID for caching custom icons.
+	IconCacheID string
+
+	// Sound is the notification sound: "system", "silent", "error", "warn", "info".
+	Sound string
+
+	// Urgency is 0 (low), 1 (normal), or 2 (critical).
+	Urgency int
+
+	// Occasion is when to show: "always", "unfocused", "invisible".
+	Occasion string
+
+	// Data is the payload content (decoded if base64).
+	Data []byte
+}
+
 // Handler is the interface that handles ANSI escape sequences.
 type Handler interface {
 	// ApplicationCommandReceived handles Application Program Command (APC) sequences (ESC _ ... ST).
@@ -57,6 +107,11 @@ type Handler interface {
 
 	// DeleteLines deletes n lines.
 	DeleteLines(n int)
+
+	// DesktopNotification handles OSC 99 desktop notifications (Kitty protocol).
+	// The payload contains all parsed notification data. The provider is responsible
+	// for handling queries (PayloadType="?") and returning its supported capabilities.
+	DesktopNotification(payload *NotificationPayload)
 
 	// DeviceStatus reports the device status.
 	DeviceStatus(n int)

@@ -290,6 +290,10 @@ func (*handler) SixelReceived(params [][]uint16, data []byte) {
 	fmt.Printf("SixelReceived params=%v dataLen=%d\n", params, len(data))
 }
 
+func (*handler) DesktopNotification(payload *ansicode.NotificationPayload) {
+	fmt.Printf("DesktopNotification id=%s type=%s urgency=%d data=%s\n", payload.ID, payload.PayloadType, payload.Urgency, payload.Data)
+}
+
 func main() {
 	decoder := ansicode.NewDecoder(&handler{})
 

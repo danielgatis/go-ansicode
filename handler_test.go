@@ -347,6 +347,11 @@ func (h *handlerMock) SixelReceived(params [][]uint16, data []byte) {
 	h.args = append(h.args, data)
 }
 
+func (h *handlerMock) DesktopNotification(payload *NotificationPayload) {
+	h.called = append(h.called, "DesktopNotification")
+	h.args = append(h.args, payload)
+}
+
 func ms(called []string, args ...interface{}) *handlerMock {
 	return &handlerMock{
 		called: called,
