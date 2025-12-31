@@ -122,6 +122,23 @@ func TestPerformer_OscDispatch(t *testing.T) {
 
 		// OSC 99 - Alive query
 		{name: "OSC 99 ; i=1:p=alive ; alive query BEL", args: args{params: [][]byte{[]byte("99"), []byte("i=1:p=alive"), []byte("")}, bellTerminated: true}, want: want{mock: m("DesktopNotification", &NotificationPayload{ID: "1", PayloadType: "alive", Done: true, Urgency: 1, Timeout: -1, Data: nil})}},
+
+		// OSC 1337 - User variables (iTerm2/WezTerm)
+		// dGVzdA== is base64 for "test"
+		{name: "OSC 1337 ; SetUserVar=NAME=dGVzdA== BEL", args: args{params: [][]byte{[]byte("1337"), []byte("SetUserVar=MY_VAR=dGVzdA==")}, bellTerminated: true}, want: want{mock: m("SetUserVar", "MY_VAR", "test")}},
+		{name: "OSC 1337 ; SetUserVar=NAME=dGVzdA== ST", args: args{params: [][]byte{[]byte("1337"), []byte("SetUserVar=MY_VAR=dGVzdA==")}}, want: want{mock: m("SetUserVar", "MY_VAR", "test")}},
+		// aGVsbG8gd29ybGQ= is base64 for "hello world"
+		{name: "OSC 1337 ; SetUserVar with spaces in value", args: args{params: [][]byte{[]byte("1337"), []byte("SetUserVar=GREETING=aGVsbG8gd29ybGQ=")}, bellTerminated: true}, want: want{mock: m("SetUserVar", "GREETING", "hello world")}},
+		// Empty base64 value
+		{name: "OSC 1337 ; SetUserVar with empty value", args: args{params: [][]byte{[]byte("1337"), []byte("SetUserVar=EMPTY=")}, bellTerminated: true}, want: want{mock: m("SetUserVar", "EMPTY", "")}},
+		// Invalid base64 should not call handler
+		{name: "OSC 1337 ; SetUserVar with invalid base64", args: args{params: [][]byte{[]byte("1337"), []byte("SetUserVar=TEST=!!invalid!!")}, bellTerminated: true}, want: want{mock: &handlerMock{}}},
+		// Missing value part should not call handler
+		{name: "OSC 1337 ; SetUserVar without value", args: args{params: [][]byte{[]byte("1337"), []byte("SetUserVar=NOVALUE")}, bellTerminated: true}, want: want{mock: &handlerMock{}}},
+		// Unknown 1337 command should be ignored
+		{name: "OSC 1337 ; UnknownCommand", args: args{params: [][]byte{[]byte("1337"), []byte("UnknownCommand=foo")}, bellTerminated: true}, want: want{mock: &handlerMock{}}},
+		// Only 1337 code without data
+		{name: "OSC 1337 (no params)", args: args{params: [][]byte{[]byte("1337")}, bellTerminated: true}, want: want{mock: &handlerMock{}}},
 	}
 
 	for _, tt := range tests {

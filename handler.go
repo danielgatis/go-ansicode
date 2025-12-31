@@ -257,6 +257,11 @@ type Handler interface {
 	// uri is in the format "file://hostname/path/to/dir".
 	SetWorkingDirectory(uri string)
 
+	// SetUserVar sets a user variable (OSC 1337 SetUserVar).
+	// name is the variable name, value is the decoded variable value.
+	// Used by iTerm2/WezTerm shell integration to pass metadata.
+	SetUserVar(name, value string)
+
 	// ShellIntegrationMark handles shell integration marks (OSC 133).
 	// mark indicates the type of mark (PromptStart, CommandStart, CommandExecuted, CommandFinished).
 	// exitCode is only valid for CommandFinished marks (-1 if not provided).

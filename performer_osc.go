@@ -213,6 +213,33 @@ func (p *Performer) OscDispatch(params [][]byte, bellTerminated bool) {
 			p.handler.DesktopNotification(payload)
 		}
 
+	case "1337":
+		// iTerm2/WezTerm proprietary sequences
+		// OSC 1337 ; SetUserVar=NAME=BASE64_VALUE ST
+		if len(params) >= 2 {
+			data := string(params[1])
+			if strings.HasPrefix(data, "SetUserVar=") {
+				// Parse NAME=BASE64_VALUE
+				rest := data[len("SetUserVar="):]
+				eqIdx := strings.Index(rest, "=")
+				if eqIdx > 0 {
+					name := rest[:eqIdx]
+					encodedValue := rest[eqIdx+1:]
+					// Decode base64 value
+					decoded, err := base64.StdEncoding.DecodeString(encodedValue)
+					if err == nil {
+						p.handler.SetUserVar(name, string(decoded))
+					} else {
+						// Try without padding
+						decoded, err = base64.RawStdEncoding.DecodeString(encodedValue)
+						if err == nil {
+							p.handler.SetUserVar(name, string(decoded))
+						}
+					}
+				}
+			}
+		}
+
 	default:
 		log.Debugf("Unhandled OSC params=%v bellTerminated=%v", params, bellTerminated)
 	}

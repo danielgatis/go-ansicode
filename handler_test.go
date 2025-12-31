@@ -352,6 +352,12 @@ func (h *handlerMock) DesktopNotification(payload *NotificationPayload) {
 	h.args = append(h.args, payload)
 }
 
+func (h *handlerMock) SetUserVar(name, value string) {
+	h.called = append(h.called, "SetUserVar")
+	h.args = append(h.args, name)
+	h.args = append(h.args, value)
+}
+
 func ms(called []string, args ...interface{}) *handlerMock {
 	return &handlerMock{
 		called: called,

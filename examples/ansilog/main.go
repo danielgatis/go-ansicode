@@ -294,6 +294,10 @@ func (*handler) DesktopNotification(payload *ansicode.NotificationPayload) {
 	fmt.Printf("DesktopNotification id=%s type=%s urgency=%d data=%s\n", payload.ID, payload.PayloadType, payload.Urgency, payload.Data)
 }
 
+func (*handler) SetUserVar(name, value string) {
+	fmt.Printf("SetUserVar name=%s value=%s\n", name, value)
+}
+
 func main() {
 	decoder := ansicode.NewDecoder(&handler{})
 
